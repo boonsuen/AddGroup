@@ -1,2 +1,0 @@
-# AddGroupBtn
-Created with CodeSandbox
