@@ -1,21 +1,35 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-import AddGroupBtn from "./AddGroupBtn";
+import AddGroupForm from "./AddGroupForm";
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Avenir Next";
-  padding-top: 80px;
+  height: 300px;
+  background-color: #f7f8fe;
+  z-index: 1;
+  position: relative;
+  padding: 80px 30px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;
 
 class App extends React.Component {
   render() {
     return (
       <Wrapper>
-        <AddGroupBtn />
+        <Header>
+          <h1>JavaScript</h1>
+          <AddGroupForm />
+        </Header>
       </Wrapper>
     );
   }

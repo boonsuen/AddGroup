@@ -31,3 +31,57 @@ export const bottomBubbles = keyframes`
     background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
   }
 `;
+
+export const hori = keyframes`
+  from {
+    width: 2px;
+    height: 2px;
+    transform: scaleX(0) rotate(0);
+    opacity: 0;
+  }
+  to {
+    width: 16px;
+    height: 2.5px;
+    transform: scaleX(1) rotate(360deg);
+    opacity: 1;
+  }
+`;
+
+export const vert = keyframes`
+  from {
+    width: 2px;
+    height: 2px;
+    transform: scaleX(0) rotate(0);
+    opacity: 0;
+  }
+  to {
+    width: 16px;
+    height: 2.5px;
+    transform: scaleX(1) rotate(90deg);
+    opacity: 1;
+  }
+`;
+
+export const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+export const rotate1 = keyframes`
+  from {
+    transform: rotate(40deg);
+  }
+  to {
+    transform: rotate(400deg);
+  }
+`;
+
+export const rotate2 = keyframes`
+  to {
+    transform: rotate(400deg);
+  }
+`;
