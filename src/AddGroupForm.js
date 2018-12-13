@@ -1,5 +1,3 @@
-// opacity: ${props => (props.submitStatus === "submitting" ? 1 : 0)};
-// ${props => (props.submitStatus === "submitting" ? rotateMixin : null)};
 import React from "react";
 import styled, { css } from "styled-components";
 import {
@@ -196,6 +194,10 @@ const PlusIcon = styled.div`
   position: absolute;
   top: 50%;
   left: calc(50% - 8px);
+  opacity: ${props =>
+    props.submitStatus === "submitted" || props.submitStatus === "submitting"
+      ? 0
+      : 1};
   ${props => {
     if (props.submitStatus === "submitting") {
       return fadeOutMixin;
@@ -284,30 +286,63 @@ class AddGroupForm extends React.Component {
     e.preventDefault();
     e.persist();
     this.animateBubbles();
+    const { submitStatus } = this.state;
 
     if (this.state.showTextField) {
-      // process data, show loading
       if (this.textField.value === "") {
         return;
       }
-      this.setState({
-        submitStatus: "submitting"
-      });
 
-      setTimeout(() => {
+      // When submitting, in which submitStatus?
+      if (submitStatus === "initial" || submitStatus === "followingInitial") {
+        console.log("first");
         this.setState({
-          submitStatus: "submitted"
+          submitStatus: "submitting"
         });
-        console.log(this.state.value);
-        this.textField.value = "";
-        this.textField.focus();
-
         setTimeout(() => {
           this.setState({
-            submitStatus: "followingInitial"
+            submitStatus: "submitted"
           });
-        }, 2000);
-      }, 3000);
+          console.log(this.state.value);
+          this.textField.value = "";
+          this.textField.focus();
+
+          setTimeout(() => {
+            if (this.state.submitStatus === "submitted") {
+              this.setState({
+                submitStatus: "followingInitial"
+              });
+            }
+          }, 2000);
+        }, 3000);
+      } else if (
+        submitStatus === "submitting" ||
+        submitStatus === "followingSubmitting"
+      ) {
+        console.log("second");
+        return;
+      } else if (submitStatus === "submitted") {
+        console.log("third");
+        this.setState({
+          submitStatus: "submitting"
+        });
+        setTimeout(() => {
+          this.setState({
+            submitStatus: "submitted"
+          });
+          console.log(this.state.value);
+          this.textField.value = "";
+          this.textField.focus();
+
+          setTimeout(() => {
+            if (this.state.submitStatus === "submitted") {
+              this.setState({
+                submitStatus: "followingInitial"
+              });
+            }
+          }, 2000);
+        }, 3000);
+      }
     } else {
       this.setState(
         {
@@ -334,6 +369,9 @@ class AddGroupForm extends React.Component {
   textFieldOnBlur = () => {
     this.setState({ textFieldFocused: false });
   };
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.state.submitStatus);
+  }
   render() {
     return (
       <StyledAddGroupForm onSubmit={this.handleSubmit}>
@@ -344,8 +382,10 @@ class AddGroupForm extends React.Component {
             this.textField = input;
           }}
           onChange={this.handleChange}
-          // disabled={!this.state.showTextField}
-          disabled={this.state.submitStatus === "submitting"}
+          disabled={
+            this.state.submitStatus === "submitting" ||
+            this.state.submitStatus === "followingSubmitting"
+          }
           onFocus={this.textFieldOnFocus}
           onBlur={this.textFieldOnBlur}
         />
