@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-import AddGroupForm from "./AddGroupForm";
+import AddGroup from "./AddGroup";
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ class App extends React.Component {
       <Wrapper>
         <Header>
           <h1>JavaScript</h1>
-          <AddGroupForm />
+          <AddGroup />
         </Header>
       </Wrapper>
     );
