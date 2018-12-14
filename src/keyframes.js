@@ -63,12 +63,6 @@ export const vert = keyframes`
 `;
 
 export const fadeOut = keyframes`
-  to {
-    opacity: 0;
-  }
-`;
-
-export const fadeOutInitial = keyframes`
   from {
     opacity: 1;
   }

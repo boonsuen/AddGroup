@@ -7,8 +7,7 @@ import {
   vert,
   rotate1,
   rotate2,
-  fadeOut,
-  fadeOutInitial
+  fadeOut
 } from "./keyframes";
 import img_addGroup from "./addgroup.svg";
 import img_tick from "./tick.svg";
@@ -61,10 +60,6 @@ const vertMixin = css`
 
 const fadeOutMixin = css`
   animation: ${fadeOut} 0.2s ease-in forwards;
-`;
-
-const fadeOutMixinInitial = css`
-  animation: ${fadeOutInitial} 0.2s ease-in-out forwards;
 `;
 
 const rotateMixin = css`
@@ -206,8 +201,6 @@ const PlusIcon = styled.div`
   ${props => {
     if (props.submitStatus === "submitting") {
       if (props.prevStatusIsInitial) {
-        return fadeOutMixinInitial;
-      } else {
         return fadeOutMixin;
       }
     } else if (props.submitStatus === "submitted") {
@@ -283,8 +276,7 @@ class AddGroupForm extends React.Component {
     showTextField: false,
     submitStatus: "initial",
     prevStatusIsInitial: false,
-    value: "",
-    _isMounted: false
+    value: ""
   };
   animateBubbles = _ => {
     this.setState({ animatingBubbles: false });
@@ -386,31 +378,6 @@ class AddGroupForm extends React.Component {
   textFieldOnBlur = () => {
     this.setState({ textFieldFocused: false });
   };
-  componentDidMount() {
-    this.setState({
-      _isMounted: true
-    });
-  }
-  componentDidUpdate(prevProps, prevState) {
-    // if (
-    //   (prevState.submitStatus === "initial" ||
-    //     prevState.submitStatus === "followingInitial") &&
-    //   this.state._isMounted
-    // ) {
-    //   console.log("prevly init");
-    //   this.setState({
-    //     prevStatusIsInitial: true
-    //   });
-    // } else if (
-    //   prevState.submitStatus === "submitted" &&
-    //   this.state._isMounted
-    // ) {
-    //   console.log("prevly submitted");
-    //   this.setState({
-    //     prevStatusIsInitial: false
-    //   });
-    // }
-  }
   render() {
     return (
       <StyledAddGroupForm onSubmit={this.handleSubmit}>
