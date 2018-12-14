@@ -7,7 +7,8 @@ import {
   vert,
   rotate1,
   rotate2,
-  fadeOut
+  fadeOut,
+  fadeOutInitial
 } from "./keyframes";
 import img_addGroup from "./addgroup.svg";
 import img_tick from "./tick.svg";
@@ -59,7 +60,11 @@ const vertMixin = css`
 `;
 
 const fadeOutMixin = css`
-  animation: ${fadeOut} 0.3s ease-in forwards;
+  animation: ${fadeOut} 0.2s ease-in forwards;
+`;
+
+const fadeOutMixinInitial = css`
+  animation: ${fadeOutInitial} 0.2s ease-in-out forwards;
 `;
 
 const rotateMixin = css`
@@ -200,7 +205,11 @@ const PlusIcon = styled.div`
       : 1};
   ${props => {
     if (props.submitStatus === "submitting") {
-      return fadeOutMixin;
+      if (props.prevStatusIsInitial) {
+        return fadeOutMixinInitial;
+      } else {
+        return fadeOutMixin;
+      }
     } else if (props.submitStatus === "submitted") {
       return "opacity: 0;";
     } else if (props.submitStatus === "followingInitial") {
@@ -273,7 +282,9 @@ class AddGroupForm extends React.Component {
     animatingBubbles: false,
     showTextField: false,
     submitStatus: "initial",
-    value: ""
+    prevStatusIsInitial: false,
+    value: "",
+    _isMounted: false
   };
   animateBubbles = _ => {
     this.setState({ animatingBubbles: false });
@@ -297,11 +308,13 @@ class AddGroupForm extends React.Component {
       if (submitStatus === "initial" || submitStatus === "followingInitial") {
         console.log("first");
         this.setState({
-          submitStatus: "submitting"
+          submitStatus: "submitting",
+          prevStatusIsInitial: true
         });
         setTimeout(() => {
           this.setState({
-            submitStatus: "submitted"
+            submitStatus: "submitted",
+            prevStatusIsInitial: false
           });
           console.log(this.state.value);
           this.textField.value = "";
@@ -310,7 +323,8 @@ class AddGroupForm extends React.Component {
           setTimeout(() => {
             if (this.state.submitStatus === "submitted") {
               this.setState({
-                submitStatus: "followingInitial"
+                submitStatus: "followingInitial",
+                prevStatusIsInitial: false
               });
             }
           }, 2000);
@@ -324,11 +338,13 @@ class AddGroupForm extends React.Component {
       } else if (submitStatus === "submitted") {
         console.log("third");
         this.setState({
-          submitStatus: "submitting"
+          submitStatus: "submitting",
+          prevStatusIsInitial: false
         });
         setTimeout(() => {
           this.setState({
-            submitStatus: "submitted"
+            submitStatus: "submitted",
+            prevStatusIsInitial: false
           });
           console.log(this.state.value);
           this.textField.value = "";
@@ -337,7 +353,8 @@ class AddGroupForm extends React.Component {
           setTimeout(() => {
             if (this.state.submitStatus === "submitted") {
               this.setState({
-                submitStatus: "followingInitial"
+                submitStatus: "followingInitial",
+                prevStatusIsInitial: false
               });
             }
           }, 2000);
@@ -369,8 +386,30 @@ class AddGroupForm extends React.Component {
   textFieldOnBlur = () => {
     this.setState({ textFieldFocused: false });
   };
+  componentDidMount() {
+    this.setState({
+      _isMounted: true
+    });
+  }
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.submitStatus);
+    // if (
+    //   (prevState.submitStatus === "initial" ||
+    //     prevState.submitStatus === "followingInitial") &&
+    //   this.state._isMounted
+    // ) {
+    //   console.log("prevly init");
+    //   this.setState({
+    //     prevStatusIsInitial: true
+    //   });
+    // } else if (
+    //   prevState.submitStatus === "submitted" &&
+    //   this.state._isMounted
+    // ) {
+    //   console.log("prevly submitted");
+    //   this.setState({
+    //     prevStatusIsInitial: false
+    //   });
+    // }
   }
   render() {
     return (
@@ -399,6 +438,7 @@ class AddGroupForm extends React.Component {
           <PlusIcon
             showTextField={this.state.showTextField}
             submitStatus={this.state.submitStatus}
+            prevStatusIsInitial={this.state.prevStatusIsInitial}
           >
             <div />
             <div />

@@ -68,6 +68,15 @@ export const fadeOut = keyframes`
   }
 `;
 
+export const fadeOutInitial = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
 export const rotate1 = keyframes`
   from {
     transform: rotate(40deg);
