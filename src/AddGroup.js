@@ -12,7 +12,7 @@ import {
 import img_addGroup from "./addgroup.svg";
 import img_tick from "./tick.svg";
 
-const StyledAddGroupForm = styled.form`
+const StyledAddGroup = styled.form`
   position: relative;
 `;
 
@@ -270,7 +270,7 @@ const Tick = styled.img`
   opacity: ${props => (props.submitStatus === "submitted" ? 1 : 0)};
 `;
 
-class AddGroupForm extends React.Component {
+class AddGroup extends React.Component {
   state = {
     animatingBubbles: false,
     showTextField: false,
@@ -287,7 +287,6 @@ class AddGroupForm extends React.Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    e.persist();
     this.animateBubbles();
     const { submitStatus } = this.state;
 
@@ -380,7 +379,7 @@ class AddGroupForm extends React.Component {
   };
   render() {
     return (
-      <StyledAddGroupForm onSubmit={this.handleSubmit}>
+      <StyledAddGroup onSubmit={this.handleSubmit}>
         <TextField
           showTextField={this.state.showTextField}
           placeholder="Enter name"
@@ -413,9 +412,9 @@ class AddGroupForm extends React.Component {
           <Spinner submitStatus={this.state.submitStatus} />
           <Tick src={img_tick} alt="" submitStatus={this.state.submitStatus} />
         </AddGroupBtn>
-      </StyledAddGroupForm>
+      </StyledAddGroup>
     );
   }
 }
 
-export default AddGroupForm;
+export default AddGroup;
